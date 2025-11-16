@@ -22,7 +22,7 @@ export function useLoadGoods(): HookReturn {
       .catch((err: Error) => setError(err.message))
       .finally(() => {
         clearTimeout(loadingTimer);
-        setTimeout(() => setIsLoading(false), 500);
+        setIsLoading(false);
       });
   }, []);
 
