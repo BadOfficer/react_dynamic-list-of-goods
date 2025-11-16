@@ -17,16 +17,13 @@ export function useLoadGoods(): HookReturn {
     setError('');
     const loadingTimer = setTimeout(() => setIsLoading(true), 200);
 
-    const goodsPromise = loadCb()
+    loadCb()
       .then(items => setGoods(items))
       .catch((err: Error) => setError(err.message))
-      .finally(() => clearTimeout(loadingTimer));
-
-    const loadingPromise = new Promise(resolve => setTimeout(resolve, 500));
-
-    Promise.allSettled([goodsPromise, loadingPromise]).finally(() =>
-      setIsLoading(false),
-    );
+      .finally(() => {
+        clearTimeout(loadingTimer);
+        setTimeout(() => setIsLoading(false), 500);
+      });
   }, []);
 
   return [goods, isLoading, error, handleLoadGoods];
